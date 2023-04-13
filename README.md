@@ -1,4 +1,4 @@
-This is a RESTFUL Contact api created using Node , Express , Mongo DB and mongoose. It has JWT authentication along with user authentication. 
+This is a RESTFUL Contact api created using Node , Express , Mongo DB and mongoose. It has JWT authentication along with user authorization. 
 
 **It has the following features:-
 i) the following features are created using jwt authentication :-
