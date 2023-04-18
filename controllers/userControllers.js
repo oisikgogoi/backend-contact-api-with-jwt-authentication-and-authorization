@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken')
 //@desc register or sign up
 //@route POST /api/auth/register
 //@access public
-const register = async (req,res)=>{
+exports.register = async (req,res)=>{
     const {username,email,password} = req.body
 
     //check if all the fields are present
@@ -21,18 +21,19 @@ const register = async (req,res)=>{
 
 
     //check for user availibility
-    const userAvailable = await User.findOne({email:email})
 
-    try{
-        if(userAvailable){
-          throw new Error('email already taken')
-       }
-    }catch(error){
-        return res.status(400).json({message:'email already taken'})
+ const userAvailable = await User.findOne({email:email})  
+    if(userAvailable){
+        return res.status(400).json({ message: "Email already exists"})
     }
+ 
     
     //hash password
-    const hashedPass = await bcrypt.hash(password,10).catch(err=> console.log('error while hashing the password'))
+    try{
+        const hashedPass = await bcrypt.hash(password,10)
+    }catch(error){
+        return res.status(500).json({message:"server error"})
+    }
 
     
     // make new mongoDB document 
@@ -55,7 +56,7 @@ const register = async (req,res)=>{
 //@desc Login
 //@route POST /api/auth/login
 //@access public
-const login = async (req,res)=>{
+exports.login = async (req,res)=>{
    const {email,password} = req.body
    
    try{
@@ -98,11 +99,11 @@ const login = async (req,res)=>{
 //@desc checkout
 //@route POST /api/auth/checkout
 //@access private
-const currentUser = async (req,res)=>{
+exports.currentUser = async (req,res)=>{
    return res.json(req.user)
 }
 
-module.exports= {login,currentUser,register}
+
 
 
 

@@ -3,7 +3,7 @@ const Contact = require("../models/contactModels")
 //@desc get all contacts
 //@route GET /api/contact/
 //@access private
-const getContacts = async (req,res)=>{
+exports.getContacts = async (req,res)=>{
     try{
         const contacts = await Contact.find({user_id:req.user.id})
         res.status(200).json({contacts})
@@ -16,7 +16,7 @@ const getContacts = async (req,res)=>{
 //@desc create new contact
 //@route POST /api/contact/
 //@access private
-const createContact = async (req,res)=>{
+exports.createContact = async (req,res)=>{
     const {name,email,phone} = req.body
 
     try{
@@ -56,7 +56,7 @@ const createContact = async (req,res)=>{
 //@desc get one contacts
 //@route GET /api/contact/:id
 //@access public
-const getContact = async (req,res)=>{
+exports.getContact = async (req,res)=>{
     if(!req.user){
         try{
             throw new Error('unauthorized')
@@ -78,7 +78,7 @@ const getContact = async (req,res)=>{
 //@desc update a contact
 //@route GET /api/contact/:id
 //@access public
-const updateContact = async (req,res)=>{
+exports.updateContact = async (req,res)=>{
     if(!req.user){
         try{
             throw new Error('unauthorized')
@@ -101,7 +101,7 @@ const updateContact = async (req,res)=>{
 //@desc delete a contact
 //@route GET /api/contact/:id
 //@access public
-const deleteContact = async (req,res)=>{
+exports.deleteContact = async (req,res)=>{
     if(!req.user){
         try{
             throw new Error('unauthorized')
@@ -119,5 +119,3 @@ const deleteContact = async (req,res)=>{
             res.status(401).json({message:'cant find any such contact'})
     }
 }
-
-module.exports = {deleteContact,updateContact,createContact,getContact,getContacts}
